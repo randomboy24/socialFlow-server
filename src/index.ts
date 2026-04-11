@@ -3,6 +3,7 @@ import { s3Client } from "./config/s3.js";
 import { getDownloadUrl, getUploadUrl } from "./services/s3.service.js";
 import cors from "cors";
 import nodemailer from "nodemailer";
+import { timeStamp } from "node:console";
 
 const app = express();
 const PORT = 3000;
@@ -182,6 +183,14 @@ app.post("/verify-otp", async function (req, res) {
       message: "INTERNAL SERVER ERROR",
     });
   }
+});
+
+app.get("/health", (req, res) => {
+  return res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    timeStamp: Date.now(),
+  });
 });
 
 app.listen(PORT, () => {
